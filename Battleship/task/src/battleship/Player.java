@@ -32,15 +32,18 @@ public class Player {
         //after split first is row A B C .. and columnt 0 - 10
         int[][] coordinates = coordinatesToSplit(playerCoordinates); // F3 D4 -> int [][]
         coordinates = changeCoordinatesFromMinToMax(coordinates); // F3 D3 -> D3 F3
-       /*
+        //printCoordinates(coordinates);
+        /*
         if (checkLengthOfCoordinates(ship, coordinates)){
             for (int row = coordinates)
         } else {
 
         }
 
+         */
 
-        */
+
+
 
 
     }
@@ -88,5 +91,5 @@ public class Player {
         System.out.println(coordinates[0][1]);
         System.out.println(coordinates[1][0]);
         System.out.println(coordinates[1][1]);
-    }
+    }//only to print - check coordinates
 }
