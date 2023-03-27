@@ -30,13 +30,17 @@ public class Player {
     public void setShipOnGameField(Ships ship, String playerCoordinates){
         //split playerCoordinates to two coordinates,
         //after split first is row A B C .. and columnt 0 - 10
-        int[][] coordinates = coordinatesToSplit(playerCoordinates);
+        int[][] coordinates = coordinatesToSplit(playerCoordinates); // F3 D4 -> int [][]
+        coordinates = changeCoordinatesFromMinToMax(coordinates); // F3 D3 -> D3 F3
+       /*
         if (checkLengthOfCoordinates(ship, coordinates)){
             for (int row = coordinates)
         } else {
 
         }
 
+
+        */
 
 
     }
@@ -62,7 +66,7 @@ public class Player {
             goodLengthShipFlag = true;
         }
         return goodLengthShipFlag;
-    }
+    } // return true if length is ok
     private int[][] coordinatesToSplit(String coordinates){
         int[][] coordinatesForField = new int[2][2];
         String[] coordinatesAfterSplit = coordinates.split(" ");
@@ -71,11 +75,18 @@ public class Player {
         coordinatesForField[1][0] = coordinatesAfterSplit[1].charAt(0) - 65;// row A B C... J
         coordinatesForField[1][1] = Integer.parseInt(coordinatesAfterSplit[1].substring(1));// column 1 2 3 ... 10
         return coordinatesForField;
-    }
+    } // return coordinates in int[][]
     public void showGameField(){
         for (char[] chars : this.gameField) {
             System.out.print(chars);
             System.out.println();
         }
+    } // print player field on screen
+
+    private void printCoordinates(int[][] coordinates){
+        System.out.println(coordinates[0][0]);
+        System.out.println(coordinates[0][1]);
+        System.out.println(coordinates[1][0]);
+        System.out.println(coordinates[1][1]);
     }
 }
