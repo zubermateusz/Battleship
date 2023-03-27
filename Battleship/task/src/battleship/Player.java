@@ -30,16 +30,35 @@ public class Player {
     public void setShipOnGameField(Ships ship, String playerCoordinates){
         //split playerCoordinates to two coordinates,
         //after split first is row A B C .. and columnt 0 - 10
-        
+        int[][] coordinates = coordinatesToSplit(playerCoordinates);
+        if (checkLengthOfCoordinates(ship, coordinates)){
+            for (int row = coordinates)
+        } else {
 
+        }
+
+
+
+    }
+
+    private int[][] changeCoordinatesFromMinToMax(int[][] coordinates){
+        int tempCoordiMin = Math.min(coordinates[0][0], coordinates[1][0]);
+        int tempCoordiMax = Math.max(coordinates[0][0], coordinates[1][0]);
+        coordinates[0][0] = tempCoordiMin;
+        coordinates[1][0] = tempCoordiMax;
+        tempCoordiMin = Math.min(coordinates[0][1], coordinates[1][1]);
+        tempCoordiMax = Math.max(coordinates[0][1], coordinates[1][1]);
+        coordinates[0][1] = tempCoordiMin;
+        coordinates[1][1] = tempCoordiMax;
+        return coordinates;
     }
 
     private boolean checkLengthOfCoordinates(Ships ship, int[][] coordinates){ // check length of ship from coordinates
         boolean goodLengthShipFlag = false;
-        if (Math.max(coordinates[0][0], coordinates[1][0]) - Math.min(coordinates[0][0], coordinates[1][0]) == ship.getLength()) {
+        if (coordinates[1][0] - coordinates[0][0] == ship.getLength()) {
             goodLengthShipFlag = true;
         } // row A B C ... J
-        if (Math.max(coordinates[0][1], coordinates[1][1]) - Math.min(coordinates[0][1], coordinates[1][1]) == ship.getLength()) {
+        if (coordinates[1][1] - coordinates[0][1] == ship.getLength()) {
             goodLengthShipFlag = true;
         }
         return goodLengthShipFlag;
