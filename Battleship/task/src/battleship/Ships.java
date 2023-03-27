@@ -8,19 +8,19 @@ public enum Ships {
     CRUISER(3, false, true),
     DESTROYER(2, false, true);
 
-    private boolean isSet;
+    private boolean isSetOfField;
     private boolean isAlive;
     Ships(int i, boolean setFalg, boolean isAlive) {
-        this.isSet = setFalg;
+        this.isSetOfField = setFalg;
         this.isAlive = isAlive;
     }
 
-    public void setSet(boolean set){
-        this.isSet = set;
+    public void setSetOnField(boolean set){
+        this.isSetOfField = set;
     }
 
-    public boolean getSet(){
-        return this.isSet;
+    public boolean getSetOnField(){
+        return this.isSetOfField;
     }
 
     public boolean isAlive() {
