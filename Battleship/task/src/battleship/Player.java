@@ -1,8 +1,6 @@
 package battleship;
 
 
-import java.awt.geom.Point2D;
-
 public class Player {
 
     //The symbol O denotes a cell with your ship, X denotes that the ship was hit, and M signifies a miss.
@@ -32,19 +30,27 @@ public class Player {
     public void setShipOnGameField(Ships ship, String playerCoordinates){
         //split playerCoordinates to two coordinates,
         //after split first is row A B C .. and columnt 0 - 10
-        System.out.println(coordinatesAfterChange(playerCoordinates)[0][0]);
-        System.out.println(coordinatesAfterChange(playerCoordinates)[0][1]);
-        System.out.println(coordinatesAfterChange(playerCoordinates)[1][0]);
-        System.out.println(coordinatesAfterChange(playerCoordinates)[1][1]);
+        
+
     }
 
-    private int[][] coordinatesAfterChange(String coordinates){
+    private boolean checkLengthOfCoordinates(Ships ship, int[][] coordinates){ // check length of ship from coordinates
+        boolean goodLengthShipFlag = false;
+        if (Math.max(coordinates[0][0], coordinates[1][0]) - Math.min(coordinates[0][0], coordinates[1][0]) == ship.getLength()) {
+            goodLengthShipFlag = true;
+        } // row A B C ... J
+        if (Math.max(coordinates[0][1], coordinates[1][1]) - Math.min(coordinates[0][1], coordinates[1][1]) == ship.getLength()) {
+            goodLengthShipFlag = true;
+        }
+        return goodLengthShipFlag;
+    }
+    private int[][] coordinatesToSplit(String coordinates){
         int[][] coordinatesForField = new int[2][2];
         String[] coordinatesAfterSplit = coordinates.split(" ");
-        coordinatesForField[0][0] = coordinatesAfterSplit[0].charAt(0) - 65;// row A B C... (- 65 kod ASCII 'A'
-        coordinatesForField[0][1] = Integer.parseInt(coordinatesAfterSplit[0].substring(1));// column 1 2 3 ...
-        coordinatesForField[1][0] = coordinatesAfterSplit[1].charAt(0) - 65;// row A B C...
-        coordinatesForField[1][1] = Integer.parseInt(coordinatesAfterSplit[1].substring(1));// column 1 2 3 ...
+        coordinatesForField[0][0] = coordinatesAfterSplit[0].charAt(0) - 65;// row A B C... J (- 65 kod ASCII 'A'
+        coordinatesForField[0][1] = Integer.parseInt(coordinatesAfterSplit[0].substring(1));// column 1 2 3 ... 10
+        coordinatesForField[1][0] = coordinatesAfterSplit[1].charAt(0) - 65;// row A B C... J
+        coordinatesForField[1][1] = Integer.parseInt(coordinatesAfterSplit[1].substring(1));// column 1 2 3 ... 10
         return coordinatesForField;
     }
     public void showGameField(){
