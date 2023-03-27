@@ -10,9 +10,15 @@ public enum Ships {
 
     private boolean isSetOfField;
     private boolean isAlive;
-    Ships(int i, boolean setFalg, boolean isAlive) {
+    int length;
+    Ships(int length, boolean setFalg, boolean isAlive) {
         this.isSetOfField = setFalg;
         this.isAlive = isAlive;
+        this.length = length;
+    }
+
+    public int getLength() {
+        return length;
     }
 
     public void setSetOnField(boolean set){
