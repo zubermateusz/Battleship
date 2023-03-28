@@ -29,15 +29,27 @@ public class Player {
         //gameField[4][3] = 'O';
         //showGameField();
 
-        if(checkLengthOfCoordinates(ship, coordinates)) { // length ship == length coordinates
-            System.out.println("Error! Wrong ship location! Try again:");
+        if(!checkLengthOfCoordinates(ship, coordinates)) { // length ship == length coordinates
+            System.out.println("Error! Wrong length of the " + ship.getName() + "! Try again:");
             return false;
         }
-        if(checkSpaceForShip(coordinates)) {
+        if(!checkSpaceForShip(coordinates)) {
             System.out.println("Error! You placed it too close to another one. Try again:");
             return false;
         }
+        if(!checkCoordinatesInOneLine(coordinates)) {
+            System.out.println("Error! Wrong ship location! Try again:");
+            return false;
+        }
 
+        for (int row = coordinates[0][0]; row <= coordinates[1][0]; row++) {
+            for (int column = coordinates[0][1]; column <= coordinates[1][1]; column++) {
+                this.gameField[row][column] = 'o';
+            }
+        }
+        ship.setAlive(true);
+        showGameField();
+        return true;
     }
 
     private boolean checkSpaceForShip(int[][] coordinates){
@@ -69,8 +81,7 @@ public class Player {
         return coordinates;
     } // change J10 J8 -> J8 J10
 
-    private boolean checkLengthOfCoordinates(Ships ship, int[][] coordinates){ // check length of ship from coordinates
-        boolean goodLengthShipFlag = false;
+    private boolean checkCoordinatesInOneLine(int[][] coordinates){ // check length of ship from coordinates
         boolean coordinatesVertical = false;
         boolean coordinatesHorizontal = false;
         // first check coordinates are in only one row or column
@@ -84,6 +95,13 @@ public class Player {
         if(coordinatesHorizontal == coordinatesVertical) { //B9 D8 or B9 B9 (to small ship)
             return false;
         }
+
+        return  coordinatesHorizontal != coordinatesVertical;
+    } // return true if coordinates are in one line
+
+    private boolean checkLengthOfCoordinates(Ships ship, int[][] coordinates){ // check length of ship from coordinates
+        boolean goodLengthShipFlag = false;
+
         // check length of coordinates to ship
         if (coordinates[1][0] - coordinates[0][0] + 1 == ship.getLength()) {
             goodLengthShipFlag = true;
@@ -116,16 +134,16 @@ public class Player {
 
          */
 
-        return goodLengthShipFlag && (coordinatesHorizontal != coordinatesVertical);
+        return goodLengthShipFlag;
     } // return true if coordinates and length are ok
 
     private int[][] coordinatesToSplit(String coordinates){
         int[][] coordinatesForField = new int[2][2];
         String[] coordinatesAfterSplit = coordinates.split(" ");
         coordinatesForField[0][0] = coordinatesAfterSplit[0].charAt(0) - 65;// row A B C... J (- 65 kod ASCII 'A')
-        coordinatesForField[0][1] = Integer.parseInt(coordinatesAfterSplit[0].substring(1));// column 1 2 3 ... 10
+        coordinatesForField[0][1] = Integer.parseInt(coordinatesAfterSplit[0].substring(1)) - 1;// column (0) for array 1 2 3 ... 10
         coordinatesForField[1][0] = coordinatesAfterSplit[1].charAt(0) - 65;// row A B C... J
-        coordinatesForField[1][1] = Integer.parseInt(coordinatesAfterSplit[1].substring(1));// column 1 2 3 ... 10
+        coordinatesForField[1][1] = Integer.parseInt(coordinatesAfterSplit[1].substring(1)) - 1;// column (0) for array 1 2 3 ... 10
         return coordinatesForField;
     } // return coordinates in int[][]; coordinates (0 2)(2 2)
 
