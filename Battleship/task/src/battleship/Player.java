@@ -41,15 +41,21 @@ public class Player {
     }
 
     private boolean checkSpaceForShip(int[][] coordinates){
-        for (int row = coordinates[0][0] - 1; row < coordinates[1][0] + 1; row++) {
-            for (int column = coordinates[0][1] - 1; column < coordinates[1][1] + 1; column++) {
+        for (int row = coordinates[0][0] - 1; row < coordinates[1][0] + 1 && row + 1 < 10; row++) {
+            if (row == -1) { // protection to not exceed the boundaries of the board
+                row = 0;
+            }
+            for (int column = coordinates[0][1] - 1; column < coordinates[1][1] + 1 && column + 1 < 10; column++) {
+                if (column == -1) { // protection to not exceed the boundaries of the board
+                    column = 0;
+                }
                 if(gameField[row][column] != '~') {
                     return false;
                 }
             }
         }
         return true;
-    }
+    } // check space around coordinates ships cannot connect
 
     private int[][] changeCoordinatesFromMinToMax(int[][] coordinates){
         int tempCoordiMin = Math.min(coordinates[0][0], coordinates[1][0]);
