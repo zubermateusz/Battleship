@@ -1,6 +1,8 @@
 package battleship;
 
 
+import java.util.Arrays;
+
 public class Player {
 
     //The symbol O denotes a cell with your ship, X denotes that the ship was hit, and M signifies a miss.
@@ -14,9 +16,8 @@ public class Player {
 
     private void startGameField(){
         for (int row = 0; row < this.gameField.length; row++){//set '~' in whole game field
-            for (int column = 0; column < this.gameField[row].length; column++){// add ~ ~ ~ ~ ~ ~
-                this.gameField[row][column] = '~';
-            }
+            // add ~ ~ ~ ~ ~ ~
+            Arrays.fill(this.gameField[row], '~');
         }
     }// set clear field
 
@@ -26,27 +27,29 @@ public class Player {
         int[][] coordinates = coordinatesToSplit(playerCoordinates);
         coordinates = changeCoordinatesFromMinToMax(coordinates);
 
-        gameField[4][6] = 'o';
-        showGameField();
-
         if(!checkLengthOfCoordinates(ship, coordinates)) { // length ship == length coordinates
             System.out.println("Error! Wrong length of the " + ship.getName() + "! Try again:");
+            System.out.println();
             return false;
         }
         if(!checkSpaceForShip(coordinates)) {
             System.out.println("Error! You placed it too close to another one. Try again:");
+            System.out.println();
             return false;
         }
         if(!checkCoordinatesInOneLine(coordinates)) {
             System.out.println("Error! Wrong ship location! Try again:");
+            System.out.println();
             return false;
         }
 
+        //set ship on gamefield
         for (int row = coordinates[0][0]; row <= coordinates[1][0]; row++) {
             for (int column = coordinates[0][1]; column <= coordinates[1][1]; column++) {
                 this.gameField[row][column] = 'o';
             }
         }
+
         ship.setAlive(true);
         showGameField();
         return true;
@@ -82,16 +85,9 @@ public class Player {
     } // change J10 J8 -> J8 J10
 
     private boolean checkCoordinatesInOneLine(int[][] coordinates){ // check length of ship from coordinates
-        boolean coordinatesVertical = false;
-        boolean coordinatesHorizontal = false;
-        // first check coordinates are in only one row or column
-        //it should show "Error! Wrong ship location! Try again:"
-        if(coordinates[0][0] == coordinates[1][0]) {//A2 A4
-            coordinatesHorizontal = true;
-        }
-        if(coordinates[0][1] == coordinates[1][1]) {//A2 C2
-            coordinatesVertical = true;
-        }
+        boolean coordinatesVertical = coordinates[0][1] == coordinates[1][1];//A2 C2
+        boolean coordinatesHorizontal = coordinates[0][0] == coordinates[1][0];//A2 A4
+
         if(coordinatesHorizontal == coordinatesVertical) { //B9 D8 or B9 B9 (to small ship)
             return false;
         }
