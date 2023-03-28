@@ -4,7 +4,7 @@ package battleship;
 public class Player {
 
     //The symbol O denotes a cell with your ship, X denotes that the ship was hit, and M signifies a miss.
-    private char[][] gameField = new char[11][22];
+    private char[][] gameField = new char[10][10];
 
 
     public Player(){
@@ -25,23 +25,11 @@ public class Player {
             }
             this.gameField[row][this.gameField[row].length - 1] = ' '; // last element in row ' '
         }
-    }
+    }// set clear field
 
     public void setShipOnGameField(Ships ship, String playerCoordinates){
         //split playerCoordinates to two coordinates,
         //after split first is row A B C .. and columnt 0 - 10
-        int[][] coordinates = coordinatesToSplit(playerCoordinates); // F3 D4 -> int [][]
-        coordinates = changeCoordinatesFromMinToMax(coordinates); // F3 D3 -> D3 F3
-        //printCoordinates(coordinates);
-        /*
-        if (checkLengthOfCoordinates(ship, coordinates)){
-            for (int row = coordinates)
-        } else {
-
-        }
-
-         */
-
 
 
 
@@ -58,16 +46,37 @@ public class Player {
         coordinates[0][1] = tempCoordiMin;
         coordinates[1][1] = tempCoordiMax;
         return coordinates;
-    }
+    } // change J10 J8 -> J8 J10
 
     private boolean checkLengthOfCoordinates(Ships ship, int[][] coordinates){ // check length of ship from coordinates
         boolean goodLengthShipFlag = false;
-        if (coordinates[1][0] - coordinates[0][0] == ship.getLength()) {
+        // check length of coordinates to ship
+        if (coordinates[1][0] - coordinates[0][0] == ship.getLength() - 1) {
             goodLengthShipFlag = true;
         } // row A B C ... J
-        if (coordinates[1][1] - coordinates[0][1] == ship.getLength()) {
+        if (coordinates[1][1] - coordinates[0][1] == ship.getLength() - 1) {
             goodLengthShipFlag = true;
         }
+        // check board boundaries
+        // J8 J10 -> J8 + ship.length < right border
+        // J8 J10 -> J10 - ship.length > left border
+        if (coordinates[0][0] + ship.getLength() > 10) {
+            goodLengthShipFlag = false;
+            System.out.println("Złe koordynaty1");
+        }
+        if (coordinates[0][1] + ship.getLength() > 10) {
+            goodLengthShipFlag = false;
+            System.out.println("Złe koordynaty2");
+        }
+        if (coordinates[1][0] - ship.getLength() < 0) {
+            goodLengthShipFlag = false;
+            System.out.println("Złe koordynaty3");
+        }
+        if (coordinates[1][1] - ship.getLength() < 0) {
+            goodLengthShipFlag = false;
+            System.out.println("Złe koordynaty4");
+        }
+
         return goodLengthShipFlag;
     } // return true if length is ok
     private int[][] coordinatesToSplit(String coordinates){
@@ -80,10 +89,7 @@ public class Player {
         return coordinatesForField;
     } // return coordinates in int[][]
     public void showGameField(){
-        for (char[] chars : this.gameField) {
-            System.out.print(chars);
-            System.out.println();
-        }
+
     } // print player field on screen
 
     private void printCoordinates(int[][] coordinates){
