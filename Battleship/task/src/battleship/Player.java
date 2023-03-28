@@ -26,8 +26,8 @@ public class Player {
         int[][] coordinates = coordinatesToSplit(playerCoordinates);
         coordinates = changeCoordinatesFromMinToMax(coordinates);
 
-        //gameField[4][3] = 'O';
-        //showGameField();
+        gameField[4][6] = 'o';
+        showGameField();
 
         if(!checkLengthOfCoordinates(ship, coordinates)) { // length ship == length coordinates
             System.out.println("Error! Wrong length of the " + ship.getName() + "! Try again:");
@@ -53,11 +53,11 @@ public class Player {
     }
 
     private boolean checkSpaceForShip(int[][] coordinates){
-        for (int row = coordinates[0][0] - 1; row < coordinates[1][0] + 1 && row + 1 < 10; row++) {
+        for (int row = coordinates[0][0] - 1; row <= coordinates[1][0] + 1 && row + 1 < 10; row++) {
             if (row == -1) { // protection to not exceed the boundaries of the board
                 row = 0;
             }
-            for (int column = coordinates[0][1] - 1; column < coordinates[1][1] + 1 && column + 1 < 10; column++) {
+            for (int column = coordinates[0][1] - 1; column <= coordinates[1][1] + 1 && column + 1 < 10; column++) {
                 if (column == -1) { // protection to not exceed the boundaries of the board
                     column = 0;
                 }
