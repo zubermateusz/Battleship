@@ -13,17 +13,10 @@ public class Player {
     }
 
     private void startGameField(){
-        // add first row
-        this.gameField[0] = new char[]{' ', ' ', '1', ' ', '2', ' ', '3', ' ', '4', ' ', '5', ' ', '6', ' ', '7', ' ', '8', ' ', '9', ' ', '1','0'};
-        // next rows
-        char firstSign = 'A'; // B C D E F G H I J
-        for (int row = 1; row < this.gameField.length; row++){
-            this.gameField[row][0] = (char) (firstSign + row - 1); // add A B C D...
-            for (int column = 1; column < this.gameField[row].length - 1; column += 2){// add ~ ~ ~ ~ ~ ~
-                this.gameField[row][column] = ' ';
-                this.gameField[row][column + 1] = '~';
+        for (int row = 0; row < this.gameField.length; row++){//set '~' in whole game field
+            for (int column = 0; column < this.gameField[row].length; column++){// add ~ ~ ~ ~ ~ ~
+                this.gameField[row][column] = '~';
             }
-            this.gameField[row][this.gameField[row].length - 1] = ' '; // last element in row ' '
         }
     }// set clear field
 
@@ -88,8 +81,19 @@ public class Player {
         coordinatesForField[1][1] = Integer.parseInt(coordinatesAfterSplit[1].substring(1));// column 1 2 3 ... 10
         return coordinatesForField;
     } // return coordinates in int[][]
-    public void showGameField(){
 
+    public void showGameField(){
+        //first row 1 2 3 4 5 6 ... 10
+        System.out.println("  1 2 3 4 5 6 7 8 9 10");
+        char sign = 'A';
+        for (int row = 0; row < this.gameField.length; row++) {
+            System.out.print((char)(sign + row));//A B C D ... J
+            for (int column = 0; column < this.gameField[row].length; column++) {// print ~ ~ ~ ~ ~ ~
+                System.out.print(' ');
+                System.out.print(gameField[row][column]);//print sign from gameField
+            }
+            System.out.println();//new line
+        }
     } // print player field on screen
 
     private void printCoordinates(int[][] coordinates){
