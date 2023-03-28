@@ -65,6 +65,10 @@ public class Player {
         if (coordinates[1][1] - coordinates[0][1] == ship.getLength() - 1) {
             goodLengthShipFlag = true;
         }
+        if(goodLengthShipFlag) {
+            System.out.println("Error! Wrong length of the " + ship.name() + "! Try again:");
+            return false;
+        }
         // check board boundaries
         // J8 J10 -> J8 + ship.length < right border
         // J8 J10 -> J10 - ship.length > left border
