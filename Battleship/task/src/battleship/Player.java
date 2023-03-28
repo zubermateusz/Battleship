@@ -22,11 +22,12 @@ public class Player {
 
     public void setShipOnGameField(Ships ship, String playerCoordinates){
         //split playerCoordinates to two coordinates,
-        //after split first is row A B C .. and columnt 0 - 10
-
-
-
-
+        //after split first is row A B C .. and column 0 - 10
+        int[][] coordinates = coordinatesToSplit(playerCoordinates);
+        coordinates = changeCoordinatesFromMinToMax(coordinates);
+        if(checkLengthOfCoordinates(ship, coordinates)){ // length ship == length coordinates
+            //-----------------------------------------------------
+        }
     }
 
     private int[][] changeCoordinatesFromMinToMax(int[][] coordinates){
@@ -43,6 +44,20 @@ public class Player {
 
     private boolean checkLengthOfCoordinates(Ships ship, int[][] coordinates){ // check length of ship from coordinates
         boolean goodLengthShipFlag = false;
+        boolean coordinatesVertical = false;
+        boolean coordinatesHorizontal = false;
+        // first check coordinates are in only one row or column
+        //it should show "Error! Wrong ship location! Try again:"
+        if(coordinates[0][0] == coordinates[1][0]) {//A2 A4
+            coordinatesHorizontal = true;
+        }
+        if(coordinates[0][1] == coordinates[1][1]) {//A2 C2
+            coordinatesVertical = true;
+        }
+        if(coordinatesHorizontal == coordinatesVertical) { //B9 D8 or B9 B9 (to small ship)
+            System.out.println("Error! Wrong ship location! Try again:");
+            return false;
+        }
         // check length of coordinates to ship
         if (coordinates[1][0] - coordinates[0][0] == ship.getLength() - 1) {
             goodLengthShipFlag = true;
@@ -75,12 +90,12 @@ public class Player {
     private int[][] coordinatesToSplit(String coordinates){
         int[][] coordinatesForField = new int[2][2];
         String[] coordinatesAfterSplit = coordinates.split(" ");
-        coordinatesForField[0][0] = coordinatesAfterSplit[0].charAt(0) - 65;// row A B C... J (- 65 kod ASCII 'A'
+        coordinatesForField[0][0] = coordinatesAfterSplit[0].charAt(0) - 65;// row A B C... J (- 65 kod ASCII 'A')
         coordinatesForField[0][1] = Integer.parseInt(coordinatesAfterSplit[0].substring(1));// column 1 2 3 ... 10
         coordinatesForField[1][0] = coordinatesAfterSplit[1].charAt(0) - 65;// row A B C... J
         coordinatesForField[1][1] = Integer.parseInt(coordinatesAfterSplit[1].substring(1));// column 1 2 3 ... 10
         return coordinatesForField;
-    } // return coordinates in int[][]
+    } // return coordinates in int[][]; coordinates (0 2)(2 2)
 
     public void showGameField(){
         //first row 1 2 3 4 5 6 ... 10
