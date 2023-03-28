@@ -50,7 +50,7 @@ public class Player {
             }
         }
 
-        ship.setAlive(true);
+        ship.setSetOnField(true);
         showGameField();
         return true;
     }
@@ -155,6 +155,7 @@ public class Player {
             }
             System.out.println();//new line
         }
+        System.out.println();
     } // print player field on screen
 
     private void printCoordinates(int[][] coordinates){
