@@ -20,14 +20,35 @@ public class Player {
         }
     }// set clear field
 
-    public void setShipOnGameField(Ships ship, String playerCoordinates){
+    public boolean setShipOnGameField(Ships ship, String playerCoordinates){
         //split playerCoordinates to two coordinates,
         //after split first is row A B C .. and column 0 - 10
         int[][] coordinates = coordinatesToSplit(playerCoordinates);
         coordinates = changeCoordinatesFromMinToMax(coordinates);
-        if(checkLengthOfCoordinates(ship, coordinates)){ // length ship == length coordinates
-            //-----------------------------------------------------
+
+        //gameField[4][3] = 'O';
+        //showGameField();
+
+        if(checkLengthOfCoordinates(ship, coordinates)) { // length ship == length coordinates
+            System.out.println("Error! Wrong ship location! Try again:");
+            return false;
         }
+        if(checkSpaceForShip(coordinates)) {
+            System.out.println("Error! You placed it too close to another one. Try again:");
+            return false;
+        }
+
+    }
+
+    private boolean checkSpaceForShip(int[][] coordinates){
+        for (int row = coordinates[0][0] - 1; row < coordinates[1][0] + 1; row++) {
+            for (int column = coordinates[0][1] - 1; column < coordinates[1][1] + 1; column++) {
+                if(gameField[row][column] != '~') {
+                    return false;
+                }
+            }
+        }
+        return true;
     }
 
     private int[][] changeCoordinatesFromMinToMax(int[][] coordinates){
@@ -55,42 +76,43 @@ public class Player {
             coordinatesVertical = true;
         }
         if(coordinatesHorizontal == coordinatesVertical) { //B9 D8 or B9 B9 (to small ship)
-            System.out.println("Error! Wrong ship location! Try again:");
             return false;
         }
         // check length of coordinates to ship
-        if (coordinates[1][0] - coordinates[0][0] == ship.getLength() - 1) {
+        if (coordinates[1][0] - coordinates[0][0] + 1 == ship.getLength()) {
             goodLengthShipFlag = true;
         } // row A B C ... J
-        if (coordinates[1][1] - coordinates[0][1] == ship.getLength() - 1) {
+        if (coordinates[1][1] - coordinates[0][1] + 1 == ship.getLength()) {
             goodLengthShipFlag = true;
         }
-        if(goodLengthShipFlag) {
-            System.out.println("Error! Wrong length of the " + ship.name() + "! Try again:");
-            return false;
-        }
+
+        /* not necessery now
         // check board boundaries
         // J8 J10 -> J8 + ship.length < right border
         // J8 J10 -> J10 - ship.length > left border
-        if (coordinates[0][0] + ship.getLength() > 10) {
+        int shipLength = ship.length;
+        if (coordinates[0][0] + shipLength > 10) {
             goodLengthShipFlag = false;
             System.out.println("Złe koordynaty1");
         }
-        if (coordinates[0][1] + ship.getLength() > 10) {
+        if (coordinates[0][1] + shipLength > 10) {
             goodLengthShipFlag = false;
             System.out.println("Złe koordynaty2");
         }
-        if (coordinates[1][0] - ship.getLength() < 0) {
+        if (coordinates[1][0] - shipLength < 0) {
             goodLengthShipFlag = false;
             System.out.println("Złe koordynaty3");
         }
-        if (coordinates[1][1] - ship.getLength() < 0) {
+        if (coordinates[1][1] - shipLength < 0) {
             goodLengthShipFlag = false;
             System.out.println("Złe koordynaty4");
         }
 
-        return goodLengthShipFlag;
-    } // return true if length is ok
+         */
+
+        return goodLengthShipFlag && (coordinatesHorizontal != coordinatesVertical);
+    } // return true if coordinates and length are ok
+
     private int[][] coordinatesToSplit(String coordinates){
         int[][] coordinatesForField = new int[2][2];
         String[] coordinatesAfterSplit = coordinates.split(" ");
