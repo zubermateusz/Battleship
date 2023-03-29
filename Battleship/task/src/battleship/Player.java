@@ -181,6 +181,7 @@ public class Player {
             System.out.println();
             System.out.println("You missed!");
             System.out.println();
+            return false;
         }
         return true;
     }
