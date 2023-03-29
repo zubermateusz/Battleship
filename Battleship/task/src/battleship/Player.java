@@ -47,7 +47,7 @@ public class Player {
         //set ship on gamefield
         for (int row = coordinates[0][0]; row <= coordinates[1][0]; row++) {
             for (int column = coordinates[0][1]; column <= coordinates[1][1]; column++) {
-                this.gameField[row][column] = 'o';
+                this.gameField[row][column] = 'O';
             }
         }
 
@@ -172,9 +172,13 @@ public class Player {
             return false;
         }
         if (player.isShipHit(coordinates)) {
+            player.showGameField();
+            System.out.println();
             System.out.println("You hit a ship!");
             System.out.println();
         } else {
+            player.showGameField();
+            System.out.println();
             System.out.println("You missed!");
             System.out.println();
         }
@@ -192,7 +196,13 @@ public class Player {
     }
 
     private boolean isShipHit(int[] coordinates) {
-        return gameField[coordinates[0]][coordinates[1]] == 'o';
+        if (gameField[coordinates[0]][coordinates[1]] == 'O') {
+            gameField[coordinates[0]][coordinates[1]] = 'X';
+            return true;
+        } else {
+            gameField[coordinates[0]][coordinates[1]] = 'M';
+        }
+        return false;
     }
 
     private int[] readCoordinatesToShot(String nextLine) {
