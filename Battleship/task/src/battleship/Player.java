@@ -21,10 +21,11 @@ public class Player {
         }
     }// set clear field
 
+
     public boolean setShipOnGameField(Ships ship, String playerCoordinates){
         //split playerCoordinates to two coordinates,
         //after split first is row A B C .. and column 0 - 10
-        int[][] coordinates = coordinatesToSplit(playerCoordinates);
+        int[][] coordinates = coordinatesForShipToSplit(playerCoordinates);
         coordinates = changeCoordinatesFromMinToMax(coordinates);
 
         if(!checkLengthOfCoordinates(ship, coordinates)) { // length ship == length coordinates
@@ -133,7 +134,7 @@ public class Player {
         return goodLengthShipFlag;
     } // return true if coordinates and length are ok
 
-    private int[][] coordinatesToSplit(String coordinates){
+    private int[][] coordinatesForShipToSplit(String coordinates){
         int[][] coordinatesForField = new int[2][2];
         String[] coordinatesAfterSplit = coordinates.split(" ");
         coordinatesForField[0][0] = coordinatesAfterSplit[0].charAt(0) - 65;// row A B C... J (- 65 kod ASCII 'A')
@@ -164,4 +165,40 @@ public class Player {
         System.out.println(coordinates[1][0]);
         System.out.println(coordinates[1][1]);
     }//only to print - check coordinates
+
+    public boolean shot(Player player, String nextLine) {
+        int[] coordinates = readCoordinatesToShot(nextLine);
+        if (!player.isCoordinatesOnField(coordinates)) {
+            return false;
+        }
+        if (player.isShipHit(coordinates)) {
+            System.out.println("You hit a ship!");
+            System.out.println();
+        } else {
+            System.out.println("You missed!");
+            System.out.println();
+        }
+        return true;
+    }
+
+    private boolean isCoordinatesOnField(int[] coordinates) {
+        if (coordinates[0] < gameField.length && coordinates[1] < gameField[0].length) {
+            return true;
+        } else {
+            System.out.println("Error! You entered the wrong coordinates! Try again:");
+            System.out.println();
+            return false;
+        }
+    }
+
+    private boolean isShipHit(int[] coordinates) {
+        return gameField[coordinates[0]][coordinates[1]] == 'o';
+    }
+
+    private int[] readCoordinatesToShot(String nextLine) {
+        int[] coordinatesForField = new int[2];
+        coordinatesForField[0] = nextLine.charAt(0) - 65;// row A B C... J (- 65 kod ASCII 'A')
+        coordinatesForField[1] = Integer.parseInt(nextLine.substring(1)) - 1;// column (0) for array 1 2 3 ... 10
+        return coordinatesForField;
+    }
 }
