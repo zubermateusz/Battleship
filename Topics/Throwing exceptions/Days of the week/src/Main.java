@@ -2,7 +2,7 @@ import java.util.*;
 
 public class Main {
 
-    public static String getDayOfWeekName(int number) throws IllegalArgumentException{
+    public static String getDayOfWeekName(int number) throws IllegalArgumentException {
         // write your code here
         return switch (number) {
             case 1 -> "Mon";
@@ -12,7 +12,7 @@ public class Main {
             case 5 -> "Fri";
             case 6 -> "Sat";
             case 7 -> "Sun";
-                default -> throw new IllegalArgumentException();
+            default -> throw new IllegalArgumentException();
         };
     }
 
